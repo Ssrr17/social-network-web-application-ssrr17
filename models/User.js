@@ -1,7 +1,7 @@
 const { Schema, model } = require('mongoose');
 
 const UserSchema = new Schema({
-    userName:{
+    username:{
         type: String,
         required: true,
         unique: true,
@@ -25,5 +25,11 @@ const UserSchema = new Schema({
 
 });
 
+// get total count of friends
 
-module.exports = UserSchema
+
+// create the Users model using the Users Schema
+const User = model('User', UserSchema);
+
+// Export Users module
+module.exports = User;
