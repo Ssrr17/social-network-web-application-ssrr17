@@ -1,22 +1,16 @@
-const mongoose = require('mongoose');
-const express = require('express');
+const connect = require("./config/connection");
+const express = require("express");
+const routes = require("./routes")
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public'));
+app.use(routes)
+// app.use(express.static('public'));
 
-app.use(require('./routes'));
-
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/pizza-hunt', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-  
+app.use(require("./routes/api"));
+connect.once("open", () => {
+  app.listen(PORT, () => console.log(`🌍 Connected on localhost:${PORT}`));
 });
-
-// Use this to log mongo queries being executed!
-mongoose.set('debug', true);
-
-app.listen(PORT, () => console.log(`🌍 Connected on localhost:${PORT}`));
